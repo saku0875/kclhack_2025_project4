@@ -2,7 +2,7 @@
 
 import { zodResolver } from'@hookform/resolvers/zod'
 import Link from 'next/link'
-import Loading from '@/app/loading'
+import Loading from '@/src/app/loading'
 import * as z from 'zod'
 import type { Database } from '@/lib/database.types'
 import { useRouter } from 'next/navigation'
