@@ -25,9 +25,9 @@ const subNavigation = [
         name: 'パスワード',
         icon: EnvelopeIcon,
         href: '/settings/password'
-    }
+    },
     {
-        name: 'ログアウト'
+        name: 'ログアウト',
         icon: ArrowLeftOnRectangleIcon,
         href: '/settings/logout'
     },
@@ -40,7 +40,7 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="grid grid-cols-3 gap-3">
             <div className="col-span-1 text-sm space-y-1 font-bold flex flex-col">
-                {subNavigation.nap((item, index) => (
+                {subNavigation.map((item, index) => (
                     <Link href={item.href} key={index}>
                         <div
                         className={`${

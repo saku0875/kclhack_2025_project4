@@ -4,7 +4,7 @@ import Link from 'next/link'
 import useStore from '@/store'
 import Image from 'next/image'
 import { Profiler, useEffect } from 'react'
-import type { Session } from '@supabase/auth-helpers-nextjs'
+import type { Session } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
@@ -25,7 +25,7 @@ const Navigation = ({
             email: session ? session.user.email! : '',
             name: session && profile ? profile.name : '',
             introduce: session && profile ? profile.introduce : '',
-            avatar_url: session && profile ? Profiler.avatar_url : '',
+            avatar_url: session && profile ? profile.avatar_url : '',
         })
     }, [session, setUser, profile])
     
@@ -39,7 +39,7 @@ const Navigation = ({
                 <div className="text-sm font-bold">
                     {session ? (
                         <div className="flex items-center space-x-5">
-                            <Link href="/setings/profile">
+                            <Link href="/settings/profile">
                             <div>プロフィール</div>
                             </Link>
                         </div>

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { redirect } from 'next/navigation'
-import Login from '@/app/components/login'
+import Login from '@/src/app/components/login'
 import type { Database } from '@/lib/database.types'
 
 // ログインページ
