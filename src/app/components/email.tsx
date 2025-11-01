@@ -45,34 +45,29 @@ const Email = ({ email }: { email: string }) => {
             // メールアドレス変更メールを送信
             const { error: updateUserError } = await supabase.auth.updateUser(
                 { email: data.email },
-                { emailRedirectTo: `${location.origin}/auth/login` }
+                { emailRedirectTo: `${location.origin}/auth/callback` }
             )
 
             // エラーチェック
             if (updateUserError) {
-                setMessage('エラーが発生しました。' + updateUserError.message)
+                // レート制限エラーを日本語化
+                if (updateUserError.message.includes('after')) {
+                    const seconds = updateUserError.message.match(/\d+/)?.[0] || '30'
+                    setMessage(`セキュリティのため、${seconds}秒後に再度お試しください。`)
+                } else {
+                    setMessage('エラーが発生しました。' + updateUserError.message)
+                }
                 return
             }
 
-            setMessage('確認用のURLを記載したメールを送信しました。')
+            setMessage(
+                '確認用のメールを送信しました。メール内のリンクをクリックして変更を完了してください。'
+            )
 
-            // ログアウト
-            const { error: signOutError } = await supabase.auth.signOut()
-
-            // エラーチェック
-            if (signOutError) {
-                setMessage('エラーが発生しました。' + signOutError.message)
-
-                return
-            }
-            
-            router.push('/auth/login')
         } catch (error) {
             setMessage('エラーが発生しました。' + error)
-            return
         } finally {
             setLoading(false)
-            router.refresh()
         }
     }
 
@@ -90,11 +85,11 @@ const Email = ({ email }: { email: string }) => {
                 <div className="mb-5">
                     <div className="text-sm mb-1 font-bold">新しいメールアドレス</div>
                     <input
-                    type="email"
-                    className="border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500"
-                    placeholder="新しいメールアドレス"
-                    id="email"
-                    {...register('email', { required: true })}
+                        type="email"
+                        className="border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500"
+                        placeholder="新しいメールアドレス"
+                        id="email"
+                        {...register('email', { required: true })}
                     />
                     <div className="my-3 text-center text-sm text-red-500">{errors.email?.message}</div>
                 </div>
@@ -105,8 +100,8 @@ const Email = ({ email }: { email: string }) => {
                         <Loading />
                     ) : (
                         <button
-                          type="submit"
-                          className="font-bold bg-sky-500 hover:brightness-95 w-full rounded-full p-2 text-white text-sm"
+                            type="submit"
+                            className="font-bold bg-sky-500 hover:brightness-95 w-full rounded-full p-2 text-white text-sm"
                         >
                             変更
                         </button>
@@ -114,7 +109,7 @@ const Email = ({ email }: { email: string }) => {
                 </div>
             </form>
 
-            {message && <div className="my-5 text-center text-sm text-red-500">{message}</div>}
+            {message && <div className="my-5 text-center text-sm text-green-600">{message}</div>}
         </div>
     )
 }

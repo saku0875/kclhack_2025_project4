@@ -23,20 +23,26 @@ export async function GET(request: NextRequest) {
                         return cookieStore.getAll()
                     },
                     setAll(cookiesToSet) {
-                        try {
-                            cookiesToSet.forEach(({ name, value, options }) =>
-                                cookieStore.set(name, value, options)
-                            )
-                        } catch {
-                            // Server Component内でのcookie設定エラーを無視
-                        }
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            cookieStore.set(name, value, options)
+                        )
                     },
                 },
             }
         )
 
         // 認証コードをセッショントークンに交換
-        await supabase.auth.exchangeCodeForSession(code)
+        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        
+        if (!error) {
+            // セッションをリフレッシュしてメールアドレス変更を反映
+            await supabase.auth.refreshSession()
+            
+            // プロフィールページにリダイレクト（変更が反映されたことを確認しやすい）
+            return NextResponse.redirect(new URL('/settings/profile', requestUrl.origin))
+        } else {
+            console.error('Session exchange error:', error)
+        }
     }
 
     // ホームページにリダイレクト
