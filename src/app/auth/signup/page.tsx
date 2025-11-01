@@ -17,9 +17,14 @@ const SignupPage = async () => {
                     return cookieStore.getAll()
                 },
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        cookieStore.set(name, value, options)
-                    )
+                    try {
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            cookieStore.set(name, value, options)
+                        )
+                    } catch {
+                        // Server Component内ではcookieの設定ができないため無視
+                        // 実際のcookie設定はServer Actionで行う
+                    }
                 }
             }
         }
