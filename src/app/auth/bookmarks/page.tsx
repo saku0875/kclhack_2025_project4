@@ -1,11 +1,10 @@
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { redirect } from 'next/navigation'
-import Dashboard from '@/src/app/components/dashboard'
+import Bookmarks from '@/src/app/components/bookmarks'
 import type { Database } from '@/lib/database.types'
 
-// ダッシュボードページ
-const DashboardPage = async () => {
+const BookmarksPage = async () => {
     const cookieStore = await cookies()
     
     const supabase = createServerClient<Database>(
@@ -39,7 +38,8 @@ const DashboardPage = async () => {
         redirect('/')
     }
 
-    return <Dashboard />
+    // セッション情報を渡す
+    return <Bookmarks user={session.user} />
 }
 
-export default DashboardPage
+export default BookmarksPage
