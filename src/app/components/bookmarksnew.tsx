@@ -129,7 +129,7 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center space-x-4">
               <button 
-                onClick={() => navigateTo('/bookmarks')}
+                onClick={() => navigateTo('/auth/bookmarks')}
                 className="flex items-center text-gray-600 hover:text-gray-900"
               >
                 <ArrowLeft size={20} className="mr-2" />
@@ -155,7 +155,7 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
                   ブックマークを作成する前に、まずジャンルを作成してください。
                 </p>
                 <button 
-                  onClick={() => navigateTo('/genres/new')}
+                  onClick={() => navigateTo('/auth/genres/new')}
                   className="mt-2 text-yellow-800 hover:text-yellow-900 underline text-sm"
                 >
                   ジャンルを作成

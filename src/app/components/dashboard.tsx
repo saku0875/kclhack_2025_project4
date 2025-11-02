@@ -197,7 +197,7 @@ export default function Dashboard() {
               <div className="flex justify-between items-center">
                 <h2 className="text-lg font-semibold text-gray-900">ジャンル</h2>
                 <button 
-                  onClick={() => navigateTo('/genres/new')}
+                  onClick={() => navigateTo('/auth/genres/new')}
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                 >
                   + 新規作成
@@ -210,7 +210,7 @@ export default function Dashboard() {
                   <FolderOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500">ジャンルがありません</p>
                   <button 
-                    onClick={() => navigateTo('/genres/new')}
+                    onClick={() => navigateTo('/auth/genres/new')}
                     className="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium"
                   >
                     最初のジャンルを作成
@@ -248,7 +248,7 @@ export default function Dashboard() {
                 <div className="flex justify-between items-center">
                   <h2 className="text-lg font-semibold text-gray-900">最近のブックマーク</h2>
                    <button 
-                      onClick={() => navigateTo('/bookmarks/new')}
+                      onClick={() => navigateTo('/auth/bookmarks/new')}
                       className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                     >
                       + 新規作成

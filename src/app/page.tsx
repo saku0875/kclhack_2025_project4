@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 type Database = {
   public: {
@@ -35,14 +36,23 @@ const Home = async () => {
     }
   )
 
-  //　セッションの所得
+  // セッションの取得
   const {
     data: { session },
   } = await supabase.auth.getSession()
   
+  // ログイン済みの場合はダッシュボードにリダイレクト
+  if (session) {
+    redirect('/auth/dashboard')
+  }
+  
   return (
     <div className="text-center text-xl">
-      {session ? <div>ログイン済</div> : <div>未ログイン</div>}
+      <div>未ログイン</div>
+
+      {/* ログインフォーム */}
+      <AnimatedAuthForm />
+
     </div>
   )
 }
