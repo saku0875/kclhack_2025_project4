@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import AnimatedAuthForm from '@/src/app/components/AnimatedAuthForm'
 
 type Database = {
   public: {
@@ -48,8 +49,6 @@ const Home = async () => {
   
   return (
     <div className="text-center text-xl">
-      <div>未ログイン</div>
-
       {/* ログインフォーム */}
       <AnimatedAuthForm />
 

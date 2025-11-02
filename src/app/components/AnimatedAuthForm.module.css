@@ -1,0 +1,218 @@
+.formsSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #374151; /* ダークグレー */
+  margin-bottom: 20px;
+}
+
+.forms {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.formWrapper {
+  animation: hideLayer .3s ease-out forwards;
+}
+
+.formWrapper.isActive {
+  animation: showLayer .3s ease-in forwards;
+}
+
+@keyframes showLayer {
+  50% { z-index: 1; }
+  100% { z-index: 1; }
+}
+
+@keyframes hideLayer {
+  0% { z-index: 1; }
+  49.999% { z-index: 1; }
+}
+
+.switcher {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: .5px;
+  color: #d9dadb; /* グレー */
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transform: translateX(0);
+  transition: all .3s ease-out;
+}
+
+.formWrapper.isActive .switcherLogin {
+  color: #2e71b8; /* ログイン */
+  transform: translateX(90px);
+}
+
+.formWrapper.isActive .switcherSignup {
+  color: #2e71b8; /* サインアップ */
+  transform: translateX(-90px);
+}
+
+.underline {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: transparent;
+  transform: translateX(101%);
+  transition: transform .4s ease;
+}
+.switcherSignup .underline {
+  transform: translateX(-101%);
+}
+.formWrapper.isActive .underline {
+  transform: translateX(0);
+  background-color: #3b83f6;
+}
+
+.form {
+  overflow: hidden;
+  min-width: 320px;
+  margin-top: 50px;
+  padding: 30px 25px;
+  border-radius: 8px;
+  transform-origin: top;
+  background-color: #f9fafb; /* アニメーションが見えるように少し色をつける */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.formLogin {
+  animation: hideLogin .3s ease-out forwards;
+}
+.formWrapper.isActive .formLogin {
+  animation: showLogin .3s ease-in forwards;
+}
+@keyframes showLogin {
+  0% { transform: translate(40%, 10px); }
+  50% { transform: translate(0, 0); }
+  100% { background-color: #fff; transform: translate(35%, -20px); }
+}
+@keyframes hideLogin {
+  0% { background-color: #fff; transform: translate(35%, -20px); }
+  50% { transform: translate(0, 0); }
+  100% { transform: translate(40%, 10px); }
+}
+
+.formSignup {
+  animation: hideSignup .3s ease-out forwards;
+}
+.formWrapper.isActive .formSignup {
+  animation: showSignup .3s ease-in forwards;
+}
+@keyframes showSignup {
+  0% { transform: translate(-40%, 10px); }
+  50% { transform: translate(0, 0); }
+  100% { background-color: #fff; transform: translate(-35%, -20px); }
+}
+@keyframes hideSignup {
+  0% { background-color: #fff; transform: translate(-35%, -20px); }
+  50% { transform: translate(0, 0); }
+  100% { transform: translate(-40%, 10px); }
+}
+
+.form fieldset {
+  position: relative;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  transition: all .3s ease-out;
+}
+.formLogin fieldset { transform: translateX(-50%); }
+.formSignup fieldset { transform: translateX(50%); }
+.formWrapper.isActive fieldset {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity .4s ease-in, transform .35s ease-in;
+}
+
+.form legend {
+  position: absolute;
+  overflow: hidden;
+  width: 1px; height: 1px;
+  clip: rect(0 0 0 0);
+}
+
+.inputBlock {
+  margin-bottom: 20px;
+}
+.inputBlock label {
+  font-size: 14px;
+  color: #7fb0f0; /* ラベル色を修正 */
+}
+.inputBlock input {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #111827; /* 入力文字色を修正 */
+  background: #ffffff; /* 背景色を修正 */
+  border: 1px solid #d1d5db; /* 枠線を修正 */
+  border-radius: 6px;
+}
+
+.form [type='submit'] {
+  opacity: 0;
+  display: block;
+  width: 100%;
+  margin: 20px auto 10px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  border: none;
+  transition: all .3s ease-out;
+}
+.formWrapper.isActive .form [type='submit'] {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all .4s ease-in;
+}
+
+.btnLogin {
+  color: #ffffff;
+  background: #5289e2; /* 青ボタン */
+}
+.btnSignup {
+  color: #ffffff;
+  background: #5183d4; /* 緑ボタン */
+}
+
+/* --- ソーシャルログイン用スタイル --- */
+.socialLogin {
+  margin-bottom: 1.5rem;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #9ca3af;
+  margin: 1.5rem 0;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e5e7eb;
+}
+.divider:not(:empty)::before { margin-right: .5em; }
+.divider:not(:empty)::after { margin-left: .5em; }
