@@ -31,8 +31,8 @@ const Navigation = ({
     
     return(
         <header className="shadow-lg shadow-gray-100">
-            <div className="py-5 container max-w-screen-sm mx-auto flex items-center justify-between">
-                <Link href="/" className="font-bold text-xl cursor-pointer">
+            <div className="py-5 container max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center justify-between">
+                <Link href="/" className="font-bold text-xl hover:text-blue-600 transition-colors cursor-pointer">
                 bookmark-manager
                 </Link>
 

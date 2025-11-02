@@ -23,7 +23,7 @@ const subNavigation = [
     },
     {
         name: 'パスワード',
-        icon: EnvelopeIcon,
+        icon: KeyIcon,
         href: '/settings/password'
     },
     {
