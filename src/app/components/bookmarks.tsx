@@ -129,7 +129,7 @@ export default function Bookmarks({user}: BookmarksProps) {
             <div className="flex flex-col sm:flex-row gap-4 items-center">
               {/* ダッシュボードボタン */}
               <button 
-                onClick={() => navigateTo('/dashboard')}
+                onClick={() => navigateTo('/auth/dashboard')}
                 className="text-gray-600 hover:text-gray-900 whitespace-nowrap"
               >
                 ← 戻る
