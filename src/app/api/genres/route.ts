@@ -35,13 +35,20 @@ export async function GET() {
         // Supabase でジャンル一覧を取得
         const { data: genres, error } = await supabase
             .from('genres' as any)
-            .select('*')
+            .select(`*, bookmarks(count)`)
             .order('name', { ascending: true })
 
         if (error) {
             console.error('ジャンル取得エラー:', error)
             return NextResponse.json({ error: error.message }, { status: 500 })
         }
+        
+        const formattedGenres = genres?.map((genre: any) => ({
+            ...genre,
+            _count: {
+                bookmarks: genre.bookmarks?.[0]?.count || 0
+            }
+        }))
 
         return NextResponse.json(genres)
     } catch (error) {
