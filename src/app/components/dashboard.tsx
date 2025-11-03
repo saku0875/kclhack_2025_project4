@@ -64,33 +64,46 @@ export default function Dashboard() {
     }
   }, [supabase, router])
 
-    // データ取得
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!user) return
+// データ取得
+useEffect(() => {
+  const fetchData = async () => {
+    if (!user) return
 
-      try {
-        const [genresResponse, bookmarksResponse] = await Promise.all([
-          fetch('/api/genres'),
-          fetch('/api/bookmarks?limit=5')
-        ])
-
-        if (genresResponse.ok) {
-          const genresData = await genresResponse.json()
-          setGenres(genresData)
-        }
-
-        if (bookmarksResponse.ok) {
-          const bookmarksData = await bookmarksResponse.json()
-          setRecentBookmarks(bookmarksData)
-        }
-      } catch (error) {
-        console.error('データ取得エラー:', error)
+    try {
+      // ジャンル取得
+      console.log('Fetching genres...')
+      const genresResponse = await fetch('/api/genres')
+      console.log('Genres response status:', genresResponse.status)
+      
+      if (!genresResponse.ok) {
+        const text = await genresResponse.text()
+        console.error('Genres error response:', text)
+      } else {
+        const genresData = await genresResponse.json()
+        console.log('Genres data:', genresData)
+        setGenres(genresData)
       }
-    }
 
-    fetchData()
-  }, [user])
+      // ブックマーク取得
+      console.log('Fetching bookmarks...')
+      const bookmarksResponse = await fetch('/api/bookmarks?limit=5')
+      console.log('Bookmarks response status:', bookmarksResponse.status)
+      
+      if (!bookmarksResponse.ok) {
+        const text = await bookmarksResponse.text()
+        console.error('Bookmarks error response:', text)
+      } else {
+        const bookmarksData = await bookmarksResponse.json()
+        console.log('Bookmarks data:', bookmarksData)
+        setRecentBookmarks(bookmarksData)
+      }
+    } catch (error) {
+      console.error('データ取得エラー:', error)
+    }
+  }
+
+  fetchData()
+}, [user])
 
   const handleDeleteGenre = async (id: string) => {
     if (!window.confirm('このジャンルを本当に削除しますか？\n（関連するブックマークがない場合のみ削除できます）')) {
@@ -145,7 +158,8 @@ export default function Dashboard() {
   }
 
   const stats = {
-    totalBookmarks: genres.reduce((sum, genre) => sum + genre._count.bookmarks, 0),
+    totalBookmarks: genres.reduce((sum, genre) => {
+      return sum + (genre._count?.bookmarks || 0);}, 0),
     totalGenres: genres.length,
     unreadBookmarks: recentBookmarks.filter(bookmark => !bookmark.isRead).length
   }
@@ -226,7 +240,7 @@ export default function Dashboard() {
                       <div className="flex items-center space-x-3">
                         <span className="font-medium text-gray-800">{genre.name}</span>
                         <span className="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
-                          {genre._count.bookmarks}件
+                          {genre._count?.bookmarks || 0}件
                         </span>
                       </div>
                       <button 
@@ -261,7 +275,7 @@ export default function Dashboard() {
                   <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500">ブックマークがありません</p>
                   <button 
-                    onClick={() => navigateTo('/bookmarks/new')}
+                    onClick={() => navigateTo('/auth/bookmarks/new')}
                     className="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium"
                   >
                     最初のブックマークを追加
@@ -303,7 +317,7 @@ export default function Dashboard() {
                   ))}
                   <div className="text-center pt-4">
                     <button 
-                      onClick={() => navigateTo('/bookmarks')}
+                      onClick={() => navigateTo('/auth/bookmarks')}
                       className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                     >
                       すべて表示
