@@ -34,7 +34,7 @@ export default function NewGenrePage() {
 
       if (response.ok) {
         alert('ジャンルが作成されました！')
-        navigateTo('/dashboard')
+        navigateTo('/auth/dashboard')
       } else {
         setError(data.error || 'ジャンルの作成に失敗しました')
       }
