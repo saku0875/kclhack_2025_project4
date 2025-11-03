@@ -31,6 +31,8 @@ const Logout = () => {
                 return
             }
 
+            router.push('/')
+
         } catch (error) {
             setMessage('エラーが発生しました。' + error)
             return
@@ -52,7 +54,7 @@ const Logout = () => {
                     ) : (
                         <button
                           type="submit"
-                          className="font-bold bg-red-500 hover:brightness-95 w-full p-2"
+                          className="font-bold bg-red-500 text-white hover:brightness-95 w-full p-2"
                         >
                         ログアウト
                         </button>

@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import useStore from '@/store'
 import Image from 'next/image'
-import { Profiler, useEffect } from 'react'
+import { usePathname } from 'next/navigation' // 追加
+import { useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
@@ -17,6 +18,10 @@ const Navigation = ({
     profile: ProfileType | null
     }) => {
     const { setUser } = useStore()
+    const pathname = usePathname() // 追加
+    
+    // ログインページかどうかを判定
+    const isLoginPage = pathname === '/' && !session // 追加
 
     // 状態管理にユーザ情報を保存
     useEffect(() => {
@@ -31,32 +36,34 @@ const Navigation = ({
     
     return(
         <header className="shadow-lg shadow-gray-100">
-            <div className="py-5 container max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center justify-between">
+            <div className={`py-5 container max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center ${
+                isLoginPage ? 'justify-center' : 'justify-between'
+            }`}>
                 <Link href="/" className="font-bold text-xl hover:text-blue-600 transition-colors cursor-pointer">
                 bookmark-manager
                 </Link>
 
-                <div className="text-sm font-bold">
-                    {session ? (
-                        <div className="flex items-center space-x-5">
-                            <Link href="/settings/profile">
-                            <div className="relative w-10 h-10">
-                                <Image
-                                  src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                                  className="rounded-full object-cover"
-                                  alt="avatar"
-                                  fill
-                                  />
+                {!isLoginPage && (
+                    <div className="text-sm font-bold">
+                        {session ? (
+                            <div className="flex items-center space-x-5">
+                                <Link href="/settings/profile">
+                                <div className="relative w-10 h-10">
+                                    <Image
+                                      src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+                                      className="rounded-full object-cover"
+                                      alt="avatar"
+                                      fill
+                                      />
+                                </div>
+                                </Link>
                             </div>
-                            </Link>
-                        </div>
-                    ) : (
-                        <div className="flex items-center space-x-5">
-                            <Link href="/auth/login">ログイン</Link>
-                            <Link href="/auth/signup">サインアップ</Link>
-                        </div>
-                    )}
-                </div>
+                        ) : (
+                            <div className="flex items-center space-x-5">
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </header>
     )
