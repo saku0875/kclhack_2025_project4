@@ -40,7 +40,7 @@ const Navigation = ({
                 isLoginPage ? 'justify-center' : 'justify-between'
             }`}>
                 <Link href="/" className="font-bold text-xl hover:text-blue-600 transition-colors cursor-pointer">
-                bookmark-manager
+                Bookmark-manager
                 </Link>
 
                 {!isLoginPage && (
