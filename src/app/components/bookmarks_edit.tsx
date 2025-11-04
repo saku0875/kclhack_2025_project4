@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'  // ← useSearchParamsを使用
+import { useSearchParams } from 'next/navigation'
 import { ArrowLeft, Save, Tag, Link, FileText } from 'lucide-react'
 
 interface Genre {
@@ -20,7 +20,7 @@ interface Bookmark {
 
 export default function EditBookmarkPage() {
   const searchParams = useSearchParams()
-  const bookmarkId = searchParams.get('id')  // ← クエリパラメータから取得
+  const bookmarkId = searchParams.get('id')
     
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -141,23 +141,23 @@ export default function EditBookmarkPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
-            <button 
-              onClick={() => navigateTo('/auth/bookmarks')}
-              className="flex items-center text-gray-600 hover:text-gray-900 mr-4"
-            >
-              <ArrowLeft size={20} className="mr-2" />
-              戻る
-            </button>
-            <h1 className="text-2xl font-bold text-gray-900">ブックマーク編集</h1>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* メインコンテンツ */}
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow">
+          {/* カードヘッダー */}
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center">
+              <button 
+                onClick={() => navigateTo('/auth/bookmarks')}
+                className="text-gray-600 hover:text-gray-900 mr-4"
+              >
+                ← 戻る
+              </button>
+              <h1 className="text-xl font-bold text-gray-900">ブックマーク編集</h1>
+            </div>
+          </div>
+
+          {/* カードコンテンツ */}
           <div className="p-6">
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -165,8 +165,9 @@ export default function EditBookmarkPage() {
               </div>
             )}
 
-            <div className="space-y-6">
-              <div>
+            <div className="space-y-4">
+              {/* URL */}
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Link size={16} className="inline mr-2" />
                   URL <span className="text-red-500">*</span>
@@ -175,11 +176,13 @@ export default function EditBookmarkPage() {
                   type="url"
                   value={formData.url}
                   onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                  placeholder="https://example.com"
                 />
               </div>
 
-              <div>
+              {/* タイトル */}
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Tag size={16} className="inline mr-2" />
                   タイトル <span className="text-red-500">*</span>
@@ -188,18 +191,20 @@ export default function EditBookmarkPage() {
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                  placeholder="ブックマークのタイトル"
                 />
               </div>
 
-              <div>
+              {/* ジャンル */}
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   ジャンル <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={formData.genreId}
                   onChange={(e) => setFormData(prev => ({ ...prev, genreId: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   {genres.map(genre => (
                     <option key={genre.id} value={genre.id}>{genre.name}</option>
@@ -207,7 +212,8 @@ export default function EditBookmarkPage() {
                 </select>
               </div>
 
-              <div>
+              {/* 説明 */}
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <FileText size={16} className="inline mr-2" />
                   説明
@@ -215,12 +221,14 @@ export default function EditBookmarkPage() {
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                   rows={3}
+                  placeholder="ブックマークの説明（任意）"
                 />
               </div>
 
-              <div className="flex justify-end space-x-4">
+              {/* アクションボタン */}
+              <div className="flex justify-end space-x-4 pt-2">
                 <button
                   onClick={() => navigateTo('/auth/bookmarks')}
                   className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
