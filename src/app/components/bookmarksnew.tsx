@@ -248,7 +248,7 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={handleSubmit}
+                  onClick={() => navigateTo('/auth/bookmarks')}
                   disabled={submitting || genres.length === 0}
                   className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
