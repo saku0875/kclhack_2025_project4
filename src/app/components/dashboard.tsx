@@ -33,6 +33,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [genres, setGenres] = useState<Genre[]>([])
   const [recentBookmarks, setRecentBookmarks] = useState<Bookmark[]>([])
+  const [unreadCount, setUnreadCount] = useState(0) // 追加
 
   // 認証チェック
   useEffect(() => {
@@ -84,9 +85,9 @@ useEffect(() => {
         setGenres(genresData)
       }
 
-      // ブックマーク取得
-      console.log('Fetching bookmarks...')
-      const bookmarksResponse = await fetch('/api/bookmarks?limit=5')
+      // 最近のブックマーク取得（表示用：3件）
+      console.log('Fetching recent bookmarks...')
+      const bookmarksResponse = await fetch('/api/bookmarks?limit=3')
       console.log('Bookmarks response status:', bookmarksResponse.status)
       
       if (!bookmarksResponse.ok) {
@@ -96,6 +97,17 @@ useEffect(() => {
         const bookmarksData = await bookmarksResponse.json()
         console.log('Bookmarks data:', bookmarksData)
         setRecentBookmarks(bookmarksData)
+      }
+
+      // 全ブックマーク取得（統計用：未読数カウント）
+      console.log('Fetching all bookmarks for stats...')
+      const allBookmarksResponse = await fetch('/api/bookmarks')
+      if (allBookmarksResponse.ok) {
+        const allBookmarksData = await allBookmarksResponse.json()
+        console.log('All bookmarks data:', allBookmarksData)
+        // 未読数を計算
+        const unread = allBookmarksData.filter((b: Bookmark) => !b.isRead).length
+        setUnreadCount(unread)
       }
     } catch (error) {
       console.error('データ取得エラー:', error)
@@ -161,7 +173,7 @@ useEffect(() => {
     totalBookmarks: genres.reduce((sum, genre) => {
       return sum + (genre._count?.bookmarks || 0);}, 0),
     totalGenres: genres.length,
-    unreadBookmarks: recentBookmarks.filter(bookmark => !bookmark.isRead).length
+    unreadBookmarks: unreadCount  // 修正：recentBookmarksではなくunreadCountを使用
   }
 
   return (
@@ -218,43 +230,43 @@ useEffect(() => {
                 </button>
               </div>
             </div>
-            <div className="p-6">
-              {genres.length === 0 ? (
-                <div className="text-center py-8">
-                  <FolderOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">ジャンルがありません</p>
-                  <button 
-                    onClick={() => navigateTo('/auth/genres/new')}
-                    className="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium"
+            <div className="p-6 max-h-[400px] overflow-y-auto">
+            {genres.length === 0 ? (
+              <div className="text-center py-8">
+                <FolderOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+               <p className="text-gray-500">ジャンルがありません</p>
+                <button 
+                  onClick={() => navigateTo('/auth/genres/new')}
+                  className="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  最初のジャンルを作成
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {genres.map((genre) => (
+                  <div 
+                    key={genre.id} 
+                    className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 group"
                   >
-                    最初のジャンルを作成
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {genres.map((genre) => (
-                    <div 
-                      key={genre.id} 
-                      className="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 group"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <span className="font-medium text-gray-800">{genre.name}</span>
-                        <span className="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
-                          {genre._count?.bookmarks || 0}件
-                        </span>
-                      </div>
-                      <button 
-                        onClick={() => handleDeleteGenre(genre.id)}
-                        className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                    <div className="flex items-center space-x-3">
+                      <span className="font-medium text-gray-800">{genre.name}</span>
+                      <span className="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+                        {genre._count?.bookmarks || 0}件
+                      </span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    <button 
+                      onClick={() => handleDeleteGenre(genre.id)}
+                      className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+        </div>
           
           {/* 最近のブックマーク */}
           <div className="bg-white rounded-lg shadow">
@@ -269,7 +281,7 @@ useEffect(() => {
                     </button>
                 </div>
             </div>
-            <div className="p-6">
+            <div className="p-6 max-h-[400px] overflow-y-auto">
               {recentBookmarks.length === 0 ? (
                 <div className="text-center py-8">
                   <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />

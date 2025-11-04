@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react'
-import { ArrowLeft, Save, Link, Tag, FileText } from 'lucide-react'
+import { ArrowLeft, Save, Link, Tag, FileText, Folder } from 'lucide-react'
 import type { User } from '@supabase/supabase-js'
 
 interface Genre {
@@ -79,7 +79,7 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
       if (response.ok) {
         // 成功時はブックマーク一覧に戻る
         alert('ブックマークが作成されました！')
-        navigateTo('/bookmarks')
+        navigateTo('/auth/bookmarks')
       } else {
         // エラーハンドリング
         if (data.error) {
@@ -200,6 +200,7 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
               {/* ジャンル */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <Folder size={16} className="inline mr-2" />
                   ジャンル <span className="text-red-500">*</span>
                 </label>
                 <select
