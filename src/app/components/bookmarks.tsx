@@ -278,7 +278,7 @@ export default function Bookmarks({user}: BookmarksProps) {
                       </a>
                       
                       <button
-                        onClick={() => navigateTo(`/auth/bookmarks/${bookmark.id}/edit`)}
+                        onClick={() => navigateTo(`/auth/bookmarks/edit?id=${bookmark.id}`)}
                         className="p-2 text-gray-400 hover:text-yellow-600 rounded-lg hover:bg-white"
                         title="編集"
                       >
