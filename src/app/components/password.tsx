@@ -18,7 +18,7 @@ const schema = z
   })
   .refine((data) => data.password === data.confirmation, {
     message: '新しいパスワードが一致しません。',
-    path: ['confirmation'], //エラーメッセージが適用されるフィールド
+    path: ['confirmation'],
   })
 
   // パスワード変更

@@ -33,7 +33,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [genres, setGenres] = useState<Genre[]>([])
   const [recentBookmarks, setRecentBookmarks] = useState<Bookmark[]>([])
-  const [unreadCount, setUnreadCount] = useState(0) // 追加
 
   // 認証チェック
   useEffect(() => {
@@ -85,9 +84,9 @@ useEffect(() => {
         setGenres(genresData)
       }
 
-      // 最近のブックマーク取得（表示用：3件）
-      console.log('Fetching recent bookmarks...')
-      const bookmarksResponse = await fetch('/api/bookmarks?limit=3')
+      // ブックマーク取得
+      console.log('Fetching bookmarks...')
+      const bookmarksResponse = await fetch('/api/bookmarks?limit=5')
       console.log('Bookmarks response status:', bookmarksResponse.status)
       
       if (!bookmarksResponse.ok) {
@@ -97,17 +96,6 @@ useEffect(() => {
         const bookmarksData = await bookmarksResponse.json()
         console.log('Bookmarks data:', bookmarksData)
         setRecentBookmarks(bookmarksData)
-      }
-
-      // 全ブックマーク取得（統計用：未読数カウント）
-      console.log('Fetching all bookmarks for stats...')
-      const allBookmarksResponse = await fetch('/api/bookmarks')
-      if (allBookmarksResponse.ok) {
-        const allBookmarksData = await allBookmarksResponse.json()
-        console.log('All bookmarks data:', allBookmarksData)
-        // 未読数を計算
-        const unread = allBookmarksData.filter((b: Bookmark) => !b.isRead).length
-        setUnreadCount(unread)
       }
     } catch (error) {
       console.error('データ取得エラー:', error)
@@ -173,13 +161,12 @@ useEffect(() => {
     totalBookmarks: genres.reduce((sum, genre) => {
       return sum + (genre._count?.bookmarks || 0);}, 0),
     totalGenres: genres.length,
-    unreadBookmarks: unreadCount  // 修正：recentBookmarksではなくunreadCountを使用
+    unreadBookmarks: recentBookmarks.filter(bookmark => !bookmark.isRead).length
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
 
-      {/* メインコンテンツ */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* 総ブックマーク */}

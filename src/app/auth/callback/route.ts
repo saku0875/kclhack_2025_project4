@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
             // セッションをリフレッシュしてメールアドレス変更を反映
             await supabase.auth.refreshSession()
             
-            // プロフィールページにリダイレクト（変更が反映されたことを確認しやすい）
+            // プロフィールページにリダイレクト
             return NextResponse.redirect(new URL('/settings/profile', requestUrl.origin))
         } else {
             console.error('Session exchange error:', error)

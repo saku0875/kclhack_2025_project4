@@ -103,7 +103,7 @@ export default function Bookmarks({user}: BookmarksProps) {
     }
   }
 
-  // ページ遷移関数
+  // ページ遷移
   const navigateTo = (path: string) => {
     window.location.href = path
   }
@@ -121,13 +121,11 @@ export default function Bookmarks({user}: BookmarksProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* メインコンテンツ */}
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow">
-          {/* カードヘッダー：ダッシュボードボタン + 検索 + フィルター */}
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              {/* ダッシュボードボタン */}
+              {/* ダッシュボード */}
               <button 
                 onClick={() => navigateTo('/auth/dashboard')}
                 className="text-gray-600 hover:text-gray-900 whitespace-nowrap"
@@ -157,7 +155,7 @@ export default function Bookmarks({user}: BookmarksProps) {
               </button>
             </div>
 
-            {/* フィルターオプション */}
+            {/* フィルター詳細 */}
             {showFilter && (
               <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -194,10 +192,8 @@ export default function Bookmarks({user}: BookmarksProps) {
             )}
           </div>
 
-          {/* カードコンテンツ：ブックマーク一覧 */}
           <div className="p-6">
             {bookmarks.length === 0 ? (
-              // 空の状態
               <div className="text-center py-12">
                 <div className="text-gray-300 mb-4">
                   <ExternalLink size={64} className="mx-auto" />

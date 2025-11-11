@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'  // ← useSearchParamsを使用
+import { useSearchParams } from 'next/navigation'
 import { ArrowLeft, Save, Tag, Link, FileText } from 'lucide-react'
 
 interface Genre {
@@ -20,7 +20,7 @@ interface Bookmark {
 
 export default function EditBookmarkPage() {
   const searchParams = useSearchParams()
-  const bookmarkId = searchParams.get('id')  // ← クエリパラメータから取得
+  const bookmarkId = searchParams.get('id')
     
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)

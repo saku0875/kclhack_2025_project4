@@ -57,7 +57,7 @@
   font-family: inherit;
   font-size: 16px;
   letter-spacing: .5px;
-  color: #d9dadb; /* グレー */
+  color: #d9dadb;
   background-color: transparent;
   border: none;
   outline: none;
@@ -170,7 +170,7 @@
 }
 .inputBlock label {
   font-size: 14px;
-  color: #7fb0f0; /* ラベル色を修正 */
+  color: #7fb0f0;
 }
 .inputBlock input {
   display: block;
@@ -178,9 +178,9 @@
   margin-top: 8px;
   padding: 10px 15px;
   font-size: 16px;
-  color: #111827; /* 入力文字色を修正 */
-  background: #ffffff; /* 背景色を修正 */
-  border: 1px solid #d1d5db; /* 枠線を修正 */
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
 }
 
@@ -204,14 +204,13 @@
 
 .btnLogin {
   color: #ffffff;
-  background: #5289e2; /* 青ボタン */
+  background: #5289e2;
 }
 .btnSignup {
   color: #ffffff;
-  background: #5183d4; /* 緑ボタン */
+  background: #5183d4;
 }
 
-/* --- ソーシャルログイン用スタイル --- */
 .socialLogin {
   margin-bottom: 1.5rem;
 }

@@ -21,8 +21,6 @@ const SupabaseListener = async () => {
                             cookieStore.set(name, value, options)
                         )
                     } catch {
-                        // Server Component内ではクッキーの設定をスキップ
-                        // クライアント側で自動的に処理されます
                     }
                 }
             }

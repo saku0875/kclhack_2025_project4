@@ -222,8 +222,9 @@ export default function AnimatedAuthForm() {
                 </Link>
             </div>
             
-             
-            {/* <div className={styles.divider}>
+            
+            {// Google認証等の追加
+            /* <div className={styles.divider}>
               <span>または</span>
             </div>
             <div className={styles.socialLogin}>
@@ -232,7 +233,6 @@ export default function AnimatedAuthForm() {
           </form>
         </div>
 
-        {/* Signup Form Wrapper */}
         <div className={`${styles.formWrapper} ${!isLoginActive ? styles.isActive : ''}`}>
           <button
             type="button"
