@@ -21,7 +21,6 @@ const Bookmarks_editPage = async () => {
                             cookieStore.set(name, value, options)
                         )
                     } catch {
-                        // Server Component では Cookie の設定は無視される
                     }
                 }
             }

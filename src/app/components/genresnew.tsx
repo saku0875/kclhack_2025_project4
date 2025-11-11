@@ -65,7 +65,6 @@ export default function NewGenrePage() {
             </div>
           </div>
 
-          {/* カードコンテンツ：フォーム */}
           <div className="p-6">
             {/* エラー表示 */}
             {error && (

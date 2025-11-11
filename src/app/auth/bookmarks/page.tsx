@@ -21,7 +21,6 @@ const BookmarksPage = async () => {
                             cookieStore.set(name, value, options)
                         )
                     } catch {
-                        // Server Component では Cookie の設定は無視される
                     }
                 }
             }
@@ -38,7 +37,6 @@ const BookmarksPage = async () => {
         redirect('/')
     }
 
-    // セッション情報を渡す
     return <Bookmarks user={session.user} />
 }
 

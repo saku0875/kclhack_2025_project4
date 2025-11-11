@@ -137,7 +137,6 @@ export async function POST(request: Request) {
         const body = await request.json()
         const { title, url, description, genreId } = body
 
-        // バリデーション
         if (!title || !url || !genreId) {
             return NextResponse.json(
                 { error: '必須項目を入力してください' },

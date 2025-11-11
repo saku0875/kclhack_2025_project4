@@ -32,7 +32,6 @@ export async function GET() {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        // Supabase でジャンル一覧を取得
         const { data: genres, error } = await supabase
             .from('genres' as any)
             .select('*')
@@ -44,7 +43,7 @@ export async function GET() {
             return NextResponse.json({ error: error.message }, { status: 500 })
         }
 
-        // 各ジャンルのブックマーク数をカウント
+        // カウント
         const genresWithCount = await Promise.all(
             (genres || []).map(async (genre: any) => {
                 const { count, error: countError } = await supabase
@@ -146,11 +145,10 @@ export async function POST(request: Request) {
             )
         }
 
-        // 作成したジャンルに _count を追加して返す
         const genreWithCount = {
             ...(data as any),
             _count: {
-                bookmarks: 0  // 新規作成なので0
+                bookmarks: 0
             }
         }
 

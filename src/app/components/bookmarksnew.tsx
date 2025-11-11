@@ -77,11 +77,10 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
       const data = await response.json()
 
       if (response.ok) {
-        // 成功時はブックマーク一覧に戻る
+        // 成功時
         alert('ブックマークが作成されました！')
         navigateTo('/auth/bookmarks')
       } else {
-        // エラーハンドリング
         if (data.error) {
           setErrors({ general: data.error })
         }
@@ -94,7 +93,6 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
     }
   }
 
-  // URLから自動でタイトル取得
   const fetchUrlTitle = async () => {
     if (!formData.url) return
 
@@ -121,11 +119,8 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* メインコンテンツ */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* 白いカード */}
         <div className="bg-white rounded-lg shadow">
-          {/* カードヘッダー：戻るボタンとタイトル */}
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center space-x-4">
               <button 
@@ -139,7 +134,6 @@ export default function Bookmarksnew({ user }: BookmarksnewProps) {
             </div>
           </div>
 
-          {/* カードコンテンツ：フォーム */}
           <div className="p-6">
             {/* エラー表示 */}
             {errors.general && (
