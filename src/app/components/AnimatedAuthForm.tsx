@@ -13,6 +13,11 @@ import styles from './AnimatedAuthForm.module.css';
 import AuthButton from './AuthButton';
 import Loading from '@/src/app/loading';
 
+const supabase = createBrowserClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
 // ログインフォームのバリデーションスキーマ
 const loginSchema = z.object({
   email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
@@ -20,23 +25,21 @@ const loginSchema = z.object({
 });
 
 // サインアップフォームのバリデーションスキーマ
-const signupSchema = z.object({
-  email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
-  password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
-  passwordConfirm: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
- }) // .refine((data) => data.password === data.passwordConfirm, {
-//   message: 'パスワードが一致しません',
-//   path: ['passwordConfirm'],
-// });
+const signupSchema = z
+  .object({
+    email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
+    password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
+    passwordConfirm: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'パスワードが一致しません',
+    path: ['passwordConfirm'],
+  })
 
 type LoginSchema = z.infer<typeof loginSchema>;
 type SignupSchema = z.infer<typeof signupSchema>;
 
 export default function AnimatedAuthForm() {
-  const supabase = createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
   const [isLoginActive, setIsLoginActive] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

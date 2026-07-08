@@ -39,6 +39,83 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookmarks: {
+        Row: {
+          id: string
+          title: string
+          url: string
+          description: string | null
+          genre_id: string | null
+          user_id: string
+          is_read: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          url: string
+          description?: string | null
+          genre_id?: string | null
+          user_id: string
+          is_read?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          url?: string
+          description?: string | null
+          genre_id?: string | null
+          user_id?: string
+          is_read?: boolean
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookmarks_genre_id_fkey"
+            columns: ["genre_id"]
+            isOneToOne: false
+            referencedRelation: "genres"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookmarks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      genres: {
+        Row: {
+          id: string
+          name: string
+          user_id: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          user_id: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          user_id?: string
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "genres_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null

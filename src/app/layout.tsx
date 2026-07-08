@@ -27,7 +27,6 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="flex flex-col min-h-screen">
-          {/* @ts-expect-error next version of TS will fix this */}
           <SupabaseListener />
           <main className="flex-1 container max-w-7xl mx-auto px-4 sm:py-6 lg:px-8 py-8">{children}</main>
 
