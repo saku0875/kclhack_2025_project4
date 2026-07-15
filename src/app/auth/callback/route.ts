@@ -8,8 +8,8 @@ import { Database } from '@/lib/database.types'
 export async function GET(request: NextRequest) {
     // URL取得
     const requestUrl = new URL(request.url)
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? requestUrl.origin
     const code = requestUrl.searchParams.get('code')
-
     if (code) {
         const cookieStore = await cookies()
         
@@ -39,12 +39,10 @@ export async function GET(request: NextRequest) {
             await supabase.auth.refreshSession()
             
             // プロフィールページにリダイレクト
-            return NextResponse.redirect(new URL('/settings/profile', requestUrl.origin))
-        } else {
+            return NextResponse.redirect(new URL('/settings/profile', baseUrl))        } else {
             console.error('Session exchange error:', error)
         }
     }
 
     // ホームページにリダイレクト
-    return NextResponse.redirect(requestUrl.origin)
-}
+    return NextResponse.redirect(baseUrl)}
