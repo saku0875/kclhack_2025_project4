@@ -15,7 +15,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          curl -fsS -o /dev/null \
-            "$SUPABASE_URL/rest/v1/users?select=id&limit=1" \
-            -H "apikey: $SUPABASE_KEY" \
-            -H "Authorization: Bearer $SUPABASE_KEY"
+          curl -sS -w "\nHTTP %{http_code}\n" \
+          "$SUPABASE_URL/rest/v1/bookmarks?select=id&limit=1" \
+          -H "apikey: $SUPABASE_KEY" \
+          -H "Authorization: Bearer $SUPABASE_KEY"
