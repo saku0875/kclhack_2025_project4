@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? requestUrl.origin
     const code = requestUrl.searchParams.get('code')
-
     if (code) {
         const cookieStore = await cookies()
         
@@ -49,3 +48,4 @@ export async function GET(request: NextRequest) {
     // ホームページにリダイレクト
     return NextResponse.redirect(baseUrl)
 }
+
